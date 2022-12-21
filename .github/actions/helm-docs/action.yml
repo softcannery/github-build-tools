@@ -9,7 +9,7 @@ inputs:
     default: './'
   git-token:
     description: the git token used to operate on the git repository. If not specified it's loaded from the git credentials file
-    required: false
+    required: true
     default: ''
   git-username:
     description: the git username used to operate on the git repository. If not specified it's loaded from the git credentials file
@@ -27,17 +27,20 @@ runs:
   using: composite
   steps:
     - name: helm package
+      env:
+        GITHUB_TOKEN: ${{ inputs.git-token }}
       run: |
         wget https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_x86_64.deb
-        apt install -y ./helm-docs_1.11.0_Linux_x86_64.deb
+        sudo apt install -y ./helm-docs_1.11.0_Linux_x86_64.deb
+        rm -f ./helm-docs_1.11.0_Linux_x86_64.deb
         helm-docs .
-        git add -A
-        git commit -m "update Helm Docs"
-        git push
+        echo "----------------docs generated"
+        if [[ $(git diff) != "" ]]; then
+          git config --global user.email "noreplay@softcannery.com"
+          git config --global user.name "Actions bot"
+          git add -A
+          git commit -m "update Helm Docs"
+          git push
+        fi
       shell: bash
       working-directory: ${{ inputs.chart-path }}
-      env:
-        GIT_USERNAME: ${{ inputs.git-username }}
-        GIT_TOKEN: ${{ inputs.git-token }}
-        GIT_AUTHOR_NAME: ${{ inputs.git-author-name || inputs.git-username }}
-        GIT_AUTHOR_EMAIL: ${{ inputs.git-author-email }}
