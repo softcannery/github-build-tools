@@ -28,7 +28,7 @@ runs:
     - name: helm release
       run: |
         ls -la ./
-        helm repo index . --merge ./dst/${{ inputs.release-path }}/index.yaml --url https://github.com/softcannery/cvacoop-helm-charts/${{ inputs.release-path }}
+        helm repo index . --merge ./dst/${{ inputs.release-path }}/index.yaml
         cp -f index.yaml ./dst/${{ inputs.release-path }}/
         cp -f *.tgz ./dst/${{ inputs.release-path }}/
         cd ./dst
