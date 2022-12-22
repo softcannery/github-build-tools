@@ -11,13 +11,4 @@ runs:
   steps:
     - name: helm package
       run: helm package ${{ inputs.chart-path }}
-#      run: |
-#        ls -la .
-#        echo "------"
-#        ls -la ${{ inputs.chart-path }}
-#        helm dependency build
-#        helm lint
-#        helm init --client-only
-#        helm package ${{ inputs.chart-path }}
       shell: bash
-#      working-directory: ${{ inputs.chart-path }}

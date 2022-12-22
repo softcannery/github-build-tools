@@ -36,11 +36,11 @@ inputs:
   git-user:
     description: 'If you want to override the name of the author/committer of the tag'
     required: false
-    default: ''
+    default: 'Actions Bot'
   git-email:
     description: 'If you want to override the email of the author/committer of the tag'
     required: false
-    default: ''
+    default: 'no-reply@no-reply.users.github.com'
 outputs:
   version:
     description: 'The next release version'

@@ -61,15 +61,15 @@ inputs:
   git-username:
     description: the git username used to operate on the git repository. If not specified it's loaded from the git credentials file
     required: false
-    default: ''
+    default: 'Actions Bot'
   git-author-name:
     description: the user name to git commit
     required: false
-    default: ''
+    default: 'Actions Bot'
   git-author-email:
     description: the user email to git commit
     required: false
-    default: ''
+    default: 'no-reply@no-reply.users.github.com'
   jx-updatebot-release:
     description: the version of jx-updatebot release
     required: false
