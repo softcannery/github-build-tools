@@ -41,8 +41,6 @@ runs:
         git config --global user.name ${{ inputs.git-username }}
         git config --global user.email ${{ inputs.git-author-email }}
         echo "-------------0 v ${{ inputs.version }}"
-        git fetch origin
-        echo "-------------1"
         git add -A
         git commit -m "Version ${{ inputs.version }} update"
         echo "-------------2"
