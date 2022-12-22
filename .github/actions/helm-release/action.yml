@@ -14,6 +14,18 @@ inputs:
     description: the git token used to operate on the git repository. If not specified it's loaded from the git credentials file
     required: true
     default: ''
+  repo-url:
+    description: the git token used to operate on the git repository. If not specified it's loaded from the git credentials file
+    required: true
+    default: 'softcannery/cvacoop-helm-charts'
+  git-user:
+    description: 'If you want to override the name of the author/committer of the tag'
+    required: false
+    default: 'Actions Bot'
+  git-email:
+    description: 'If you want to override the email of the author/committer of the tag'
+    required: false
+    default: 'no-reply@no-reply.users.github.com'
 runs:
   using: composite
   steps:
@@ -24,7 +36,7 @@ runs:
         ref: 'master'
         fetch-depth: 0
         token: ${{ inputs.git-token }}
-        repository: 'softcannery/cvacoop-helm-charts'
+        repository: ${{ inputs.repo-url }}
     - name: helm release
       run: |
         ls -la ./
@@ -33,8 +45,8 @@ runs:
         cp -f *.tgz ./dst/${{ inputs.release-path }}/
         cd ./dst
         git add -A
-        git config --global user.name "actions bot"
-        git config --global user.email "noanswer@softcannery.com"
+        git config --global user.name ${{ inputs.git-username }}
+        git config --global user.email ${{ inputs.git-author-email }}
         git commit -m "add new chart $GITHUB_ACTION_REPOSITORY"
         git push
       shell: bash
