@@ -38,8 +38,6 @@ runs:
         sudo apt install -y ./helm-docs_1.11.0_Linux_x86_64.deb
         rm -f ./helm-docs_1.11.0_Linux_x86_64.deb
         helm-docs ${{ inputs.chart-path }}
-        echo "----------------docs generated"
-#        if [[ $(git diff) != "" ]]; then
         git config --global user.email "${{ inputs.git-author-email }}"
         git config --global user.name "${{ inputs.git-username }}"
         git pull --tags
@@ -47,5 +45,4 @@ runs:
         git add -A
         git commit -m "Version ${{ inputs.version }} update"
         git push
-#        fi
       shell: bash
