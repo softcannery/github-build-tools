@@ -43,6 +43,7 @@ runs:
           git config --global user.email "${{ inputs.git-author-email }}"
           git config --global user.name "${{ inputs.git-username }}"
           git pull --tags
+          git fetch origin
           git add -A
           git commit -m "Version ${{ inputs.version }} update"
           git push
