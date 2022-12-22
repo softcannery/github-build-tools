@@ -14,7 +14,7 @@ inputs:
   git-username:
     description: the git username used to operate on the git repository. If not specified it's loaded from the git credentials file
     required: false
-    default: ''
+    default: 'Actions Bot'
   git-author-name:
     description: the user name to git commit
     required: false
@@ -22,7 +22,7 @@ inputs:
   git-author-email:
     description: the user email to git commit
     required: false
-    default: ''
+    default: 'no-reply@no-reply.users.github.com'
 runs:
   using: composite
   steps:
@@ -33,14 +33,14 @@ runs:
         wget https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_x86_64.deb
         sudo apt install -y ./helm-docs_1.11.0_Linux_x86_64.deb
         rm -f ./helm-docs_1.11.0_Linux_x86_64.deb
-        helm-docs .
+        helm-docs ${{ inputs.chart-path }}
         echo "----------------docs generated"
         if [[ $(git diff) != "" ]]; then
-          git config --global user.email "noreplay@softcannery.com"
-          git config --global user.name "Actions bot"
+          git config --global user.email "${{ inputs.git-author-email }}"
+          git config --global user.name "${{ inputs.git-username }}"
+          git pull --tags
           git add -A
-          git commit -m "update Helm Docs"
+          git commit -m "update to Version ${{ inputs.version }}"
           git push
         fi
       shell: bash
-      working-directory: ${{ inputs.chart-path }}
