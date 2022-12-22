@@ -11,6 +11,10 @@ inputs:
     description: the git token used to operate on the git repository. If not specified it's loaded from the git credentials file
     required: true
     default: ''
+  version:
+    description: set version
+    required: false
+    default: ''
   git-username:
     description: the git username used to operate on the git repository. If not specified it's loaded from the git credentials file
     required: false
@@ -40,7 +44,7 @@ runs:
           git config --global user.name "${{ inputs.git-username }}"
           git pull --tags
           git add -A
-          git commit -m "update to Version ${{ inputs.version }}"
+          git commit -m "Version ${{ inputs.version }} update"
           git push
         fi
       shell: bash
