@@ -37,6 +37,7 @@ runs:
         fetch-depth: 0
         token: ${{ inputs.git-token }}
         repository: ${{ inputs.repo-url }}
+      working-directory: ${{ inputs.chart-path }}
     - name: helm release
       run: |
         ls -la ./
