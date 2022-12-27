@@ -46,5 +46,5 @@ runs:
         context: ./${{ inputs.chart-path }}
         push: true
         tags: |
-          docker.pkg.github.com/${{ github.repository }}/${{ matrix.service }}:${{ github.sha }}
-          docker.pkg.github.com/${{ github.repository }}/${{ matrix.service }}:latest
+          docker.pkg.github.com/${{ github.repository }}/${{ inputs.image-name }}:${{ github.sha }}
+          docker.pkg.github.com/${{ github.repository }}/${{ inputs.image-name }}:latest
