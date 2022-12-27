@@ -39,7 +39,6 @@ runs:
         repository: ${{ inputs.repo-url }}
     - name: helm release
       run: |
-        ls -la ./
         helm repo index . --merge ./dst/${{ inputs.release-path }}/index.yaml
         cp -f index.yaml ./dst/${{ inputs.release-path }}/
         cp -f *.tgz ./dst/${{ inputs.release-path }}/
