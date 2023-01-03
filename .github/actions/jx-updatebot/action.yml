@@ -73,7 +73,7 @@ inputs:
   jx-updatebot-release:
     description: the version of jx-updatebot release
     required: false
-    default: '0.4.0'
+    default: '0.3.13'
 runs:
   using: composite
   steps:
