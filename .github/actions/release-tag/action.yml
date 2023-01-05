@@ -38,6 +38,6 @@ runs:
         git config --global user.email ${{ inputs.git-author-email }}
         git add -A
         git commit -m "Release ${{ inputs.version }}"
-        git tag -fa -m "Release ${{ inputs.version }}" $VERSION
+        git tag -fa -m "Release ${{ inputs.version }}" ${{ inputs.version }}
         git push origin ${{ inputs.version }}
       shell: bash
