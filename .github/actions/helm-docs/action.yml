@@ -42,9 +42,9 @@ runs:
         sudo apt install -y ./helm-docs_${{ inputs.docs-version }}_Linux_x86_64.deb
         rm -f ./helm-docs_${{ inputs.docs-version }}_Linux_x86_64.deb
         helm-docs ${{ inputs.chart-path }}
-        git config --global user.name ${{ inputs.git-username }}
-        git config --global user.email ${{ inputs.git-author-email }}
-        git add -A
-        git commit -m "Version ${{ inputs.version }} update"
-        git push
+#        git config --global user.name ${{ inputs.git-username }}
+#        git config --global user.email ${{ inputs.git-author-email }}
+#        git add -A
+#        git commit -m "Version ${{ inputs.version }} update"
+#        git push
       shell: bash
