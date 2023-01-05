@@ -1,9 +1,9 @@
 # Based on Helm-docs utility https://github.com/norwoodj/helm-docs
-name: 'helm-docs'
+name: 'release-tag'
 description: Generate Helm docs
 
 inputs:
-  chart-path:
+  path:
     required: false
     description: set custom chart path
     default: './'
@@ -15,10 +15,6 @@ inputs:
     description: set version
     required: false
     default: ''
-  docs-version:
-    description: set version
-    required: false
-    default: '1.11.0'
   git-username:
     description: the git username used to operate on the git repository. If not specified it's loaded from the git credentials file
     required: false
@@ -34,12 +30,14 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: helm package
+    - name: release tag
       env:
         GITHUB_TOKEN: ${{ inputs.git-token }}
       run: |
-        wget https://github.com/norwoodj/helm-docs/releases/download/v${{ inputs.docs-version }}/helm-docs_${{ inputs.docs-version }}_Linux_x86_64.deb
-        sudo apt install -y ./helm-docs_${{ inputs.docs-version }}_Linux_x86_64.deb
-        rm -f ./helm-docs_${{ inputs.docs-version }}_Linux_x86_64.deb
-        helm-docs ${{ inputs.chart-path }}
+        git config --global user.name ${{ inputs.git-username }}
+        git config --global user.email ${{ inputs.git-author-email }}
+        git add -A
+        git commit -m "Release ${{ inputs.version }}"
+        git tag -fa -m "Release ${{ inputs.version }}" $VERSION
+        git push origin ${{ inputs.version }}
       shell: bash
