@@ -33,6 +33,7 @@ jobs:
       - name: add terraform docs
         run: |
           cd ./.github/actions/
+          npm install -g action-docs
           for entry in $(ls -d */) 
           do
             action-docs --no-banner > README.md
