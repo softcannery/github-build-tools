@@ -1,0 +1,50 @@
+name: Release Charts
+on:
+  workflow_call:
+    inputs:
+      git-username:
+        type: string
+        required: false
+        default: 'Actions Bot'
+      git-email:
+        type: string
+        required: false
+        default: 'no-reply@no-reply.users.github.com'
+  push:
+    branches:
+      - master
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: New version
+        id: version
+        uses: softcannery/github-build-tools/.github/actions/jx-release-version@master
+        with:
+          github-token: ${{ secrets.ACTIONS_TOKEN }}
+      - name: update version
+        run: echo $VERSION > VERSION
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+      - name: add terraform docs
+        run: |
+          cd ./.github/actions/
+          for entry in $(ls -d */) 
+          do
+            action-docs --no-banner > README.md
+          done
+      - name: Create Release Tag
+        uses: softcannery/github-build-tools/.github/actions/release-tag@master
+        with:
+          git-token: ${{ secrets.ACTIONS_TOKEN }}
+          version: ${{ steps.version.outputs.version }}
+      - name: Release
+        run: |
+          gh release create $VERSION --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
