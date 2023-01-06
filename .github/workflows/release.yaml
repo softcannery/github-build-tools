@@ -36,7 +36,9 @@ jobs:
           npm install -g action-docs
           for entry in $(ls -d */) 
           do
+            cd $entry
             action-docs --no-banner > README.md
+            cd ../
           done
       - name: Create Release Tag
         uses: softcannery/github-build-tools/.github/actions/release-tag@master
